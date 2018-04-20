@@ -44,7 +44,7 @@ public class JSONProcessor {
 	 * 		The object that was previously saved in the file
 	 * @throws FileNotFoundException
 	 */
-	public static Object deserialize(String filename) throws FileNotFoundException{
+	public static Object deserialize(String filename) throws FileNotFoundException, NullPointerException{
 		Reader in = new BufferedReader(new FileReader(filename));
 		GsonBuilder builder = new GsonBuilder();
 		Gson gson = builder.create();
