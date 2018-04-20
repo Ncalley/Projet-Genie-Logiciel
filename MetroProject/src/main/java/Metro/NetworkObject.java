@@ -11,9 +11,9 @@ package Metro;
  * @author Nicolas
  *
  */
-public abstract class NetworkObject implements Comparable<Object>{
-	private String name;
-	private boolean incident;
+public abstract class NetworkObject{
+	protected String name;
+	protected boolean incident;
 	
 	//Methods
 	/**
