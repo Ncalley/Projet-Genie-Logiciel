@@ -16,6 +16,9 @@ public abstract class NetworkObject implements Comparable<Object>{
 	private boolean incident;
 	
 	//Methods
+	/**
+	 * Automatically generated hashcode function
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -24,6 +27,9 @@ public abstract class NetworkObject implements Comparable<Object>{
 		return result;
 	}
 
+	/**
+	 * Automatically generated equals function
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
