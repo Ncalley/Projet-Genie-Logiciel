@@ -20,10 +20,9 @@ public class Station extends NetworkObject{
 	
 	//Constructors
 	
-	public Station(final float latitude, final float longitude, final Duration waitingTime, final String name, final boolean incident) throws WrongValueException{
-		super();
+	public Station(final float latitude, final float longitude, final Duration waitingTime, final String name, final boolean incident){
 		if (!DataChecker.checkCoordinate(latitude) || !DataChecker.checkCoordinate(longitude)) {
-			throw new WrongValueException("Invalid coordinate's format\nLatitude = "
+			throw new IllegalArgumentException("Invalid coordinate's format\nLatitude = "
 					+ latitude
 					+ "\nLongitude= "
 					+ longitude
@@ -32,22 +31,22 @@ public class Station extends NetworkObject{
 		this.LATITUDE = latitude;
 		this.LONGITUDE = longitude;
 		if(!DataChecker.checkDuration(waitingTime)) {
-			throw new WrongValueException("Invalid duration : " + waitingTime.toString());
+			throw new IllegalArgumentException("Invalid duration : " + waitingTime.toString());
 		}
 		this.waitingTime = waitingTime;
 		if(!DataChecker.checkString(name)) {
-			throw new WrongValueException("Name can't be null or blank");
+			throw new IllegalArgumentException("Name can't be null or blank");
 		}
 		this.name = name;
 		this.incident = incident;
 	}
 	
-	public Station(final float latitude, final float longitude, final Duration waitingTime, final String name) throws WrongValueException{
+	public Station(final float latitude, final float longitude, final Duration waitingTime, final String name){
 		//By default there are no incidents when we create the station
 		this(latitude,longitude,waitingTime, name, true);
 	}
 	
-	public Station(final float latitude, final float longitude, final String name) throws WrongValueException{
+	public Station(final float latitude, final float longitude, final String name){
 		// the mean of the waiting time in a subway station is 1 minute 30 seconds, it will be our default value here
 		this(latitude,longitude, Duration.ofMinutes(1).plus(Duration.ofSeconds(30)), name, true);
 	}

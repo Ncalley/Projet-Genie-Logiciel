@@ -1,7 +1,6 @@
 package MetroTest;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Duration;
@@ -16,8 +15,6 @@ import Metro.DataChecker;
 @RunWith(JUnitPlatform.class)
 @DisplayName("JSONProcessorTest")
 public class DataCheckerTest {
-
-	private Double coordinate;
 
 	/**
 	 * Test of checkNull with a not null object
