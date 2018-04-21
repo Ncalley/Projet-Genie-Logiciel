@@ -23,7 +23,7 @@ public class JSONProcessorTest {
 	 */
 	@Test
 	void FileNotFound() {
-		Throwable exception = assertThrows(FileNotFoundException.class, () -> {
+		assertThrows(FileNotFoundException.class, () -> {
 			JSONProcessor.deserialize("lol.txt");
 		});
 	}
@@ -33,7 +33,7 @@ public class JSONProcessorTest {
 	 */
 	@Test
 	void NullPointer() {
-		Throwable exception = assertThrows(NullPointerException.class, () -> {
+		assertThrows(NullPointerException.class, () -> {
 			JSONProcessor.deserialize(null);
 		});
 	}

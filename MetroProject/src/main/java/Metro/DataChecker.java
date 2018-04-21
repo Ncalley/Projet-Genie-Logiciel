@@ -47,9 +47,9 @@ public class DataChecker {
 	 * 		- True if the float has an eligible value (between -90 and 90)
 	 * 		- False if not or if it's null
 	 */
-	public static boolean checkCoordinate(final float coordinate) {
+	public static boolean checkCoordinate(final double coordinate) {
 		if (checkNull(coordinate)) {return false;}
-		if (coordinate <= 90f && coordinate >= -90f) {return true;}
+		if (coordinate <= 90 && coordinate >= -90) {return true;}
 		return false;
 	}
 	
@@ -74,7 +74,7 @@ public class DataChecker {
 	 * @param string
 	 * 		The given string we need to test
 	 * @return
-	 * 		- False if null of ""
+	 * 		- False if null or ""
 	 * 		- True otherwise
 	 */
 	public static boolean checkString(final String string) {

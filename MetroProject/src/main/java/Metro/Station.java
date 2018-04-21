@@ -13,8 +13,8 @@ import java.time.Duration;
  *
  */
 public class Station extends NetworkObject{
-	private final float latitude;
-	private final float longitude;
+	private final float LATITUDE;
+	private final float LONGITUDE;
 	private Duration waitingTime;
 	
 	
@@ -29,8 +29,8 @@ public class Station extends NetworkObject{
 					+ longitude
 					+ "\nCoordinates must be between -90 and 90 included");
 		}
-		this.latitude = latitude;
-		this.longitude = longitude;
+		this.LATITUDE = latitude;
+		this.LONGITUDE = longitude;
 		if(!DataChecker.checkDuration(waitingTime)) {
 			throw new WrongValueException("Invalid duration : " + waitingTime.toString());
 		}
@@ -69,10 +69,10 @@ public class Station extends NetworkObject{
 	}
 
 	public float getLatitude() {
-		return latitude;
+		return LATITUDE;
 	}
 
 	public float getLongitude() {
-		return longitude;
+		return LONGITUDE;
 	}
 }
