@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.time.Duration;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ public class StationTest {
 	 * Test of Station's creation with all legal arguments
 	 */
 	@Test
-	void testStationName1() {
+	void testStation() {
 		new Station(0,0,"Test");
 	}
 	
@@ -28,7 +29,7 @@ public class StationTest {
 	 *  Test of Station's creation with the name null
 	 */
 	@Test
-	void testStationName2() {
+	void testName1() {
 		IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
 			new Station(0,0,null);
 		});
@@ -39,11 +40,243 @@ public class StationTest {
 	 * Test of Station's creation with the name blank
 	 */
 	@Test
-	void testStationName3 () {
+	void testName2 () {
 		IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
 			new Station(0,0,"");
 		});
 		assertEquals(e.getMessage(), "Name can't be null or blank");
 	}
+	
+	/**
+	 * Test of Station's creation with a negative invalid latitude
+	 */
+	@Test
+	void testCoordinates1() {
+		float latitude = -91;
+		float longitude = 0;
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
+			new Station(latitude,longitude,"Test");
+		});
+		assertEquals(e.getMessage(), "Invalid coordinate's format\nLatitude = "
+				+ latitude
+				+ "\nLongitude= "
+				+ longitude
+				+ "\nCoordinates must be between -90 and 90 included");
+	}
+	
+	/**
+	 * Test of Station's creation with a positive invalid latitude
+	 */
+	@Test
+	void testCoordinates2() {
+		float latitude = 91;
+		float longitude = 0;
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
+			new Station(latitude,longitude,"Test");
+		});
+		assertEquals(e.getMessage(), "Invalid coordinate's format\nLatitude = "
+				+ latitude
+				+ "\nLongitude= "
+				+ longitude
+				+ "\nCoordinates must be between -90 and 90 included");
+	}
+	
+	/**
+	 * Test of Station's creation with a negative invalid longitude
+	 */
+	@Test
+	void testCoordinates3() {
+		float latitude = 0;
+		float longitude = -91;
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
+			new Station(latitude,longitude,"Test");
+		});
+		assertEquals(e.getMessage(), "Invalid coordinate's format\nLatitude = "
+				+ latitude
+				+ "\nLongitude= "
+				+ longitude
+				+ "\nCoordinates must be between -90 and 90 included");
+	}
+	
+	/**
+	 * Test of Station's creation with a positive invalid longitude
+	 */
+	@Test
+	void testCoordinates4() {
+		float latitude = 0;
+		float longitude = 91;
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
+			new Station(latitude,longitude,"Test");
+		});
+		assertEquals(e.getMessage(), "Invalid coordinate's format\nLatitude = "
+				+ latitude
+				+ "\nLongitude= "
+				+ longitude
+				+ "\nCoordinates must be between -90 and 90 included");
+	}
+	
+	/**
+	 * Test of Station's creation with a valid duration
+	 */
+	@Test
+	void testDuration1(){
+		Duration duration = Duration.ofMinutes(1).plus(Duration.ofSeconds(30));
+		new Station(0,0,"Test",duration);
+	}
+	
+	/**
+	 * Test of Station's creation with a null duration
+	 */
+	@Test
+	void testDuration2(){
+		Duration duration = null;
+		assertThrows(NullPointerException.class, () -> {
+			new Station(0,0,"Test",duration);
+		});
+	}
+	
+	/**
+	 * Test of Station's creation with a negative duration
+	 */
+	@Test
+	void testDuration3(){
+		Duration duration = Duration.ofMinutes(-42);
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
+			new Station(0,0,"Test",duration);
+		});
+		assertEquals(e.getMessage(), "Invalid duration : " + duration.toString());
+	}
+	
+	/**
+	 * Test of Station's creation with a duration with a value that equals zero
+	 */
+	@Test
+	void testDuration4(){
+		Duration duration = Duration.ZERO;
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
+			new Station(0,0,"Test",duration);
+		});
+		assertEquals(e.getMessage(), "Invalid duration : " + duration.toString());
+	}
+	
+	/**
+	 * Test of Station's creation with an incident
+	 */
+	@Test
+	void testIncident1() {
+		new Station(0,0,"Test",Duration.ofMinutes(1).plus(Duration.ofSeconds(30)),true);
+	}
+	
+	/**
+	 * Test of Station's creation without incident
+	 */
+	@Test
+	void testIncident2() {
+		new Station(0,0,"Test",Duration.ofMinutes(1).plus(Duration.ofSeconds(30)),false);
+	}
+	
+	/**
+	 * Test of Station's creation with an incident
+	 */
+	@Test
+	void testIncident3() {
+		new Station(0,0,"Test",true);
+	}
+	
+	/**
+	 * Test of Station's creation without incident
+	 */
+	@Test
+	void testIncident4() {
+		new Station(0,0,"Test",false);
+	}
+	
+	/**
+	 * Test of getWaitingTime method
+	 */
+	@Test
+	void testGetWaitingTime() {
+		Duration duration = Duration.ofSeconds(42);
+		Station s = new Station(0,0,"Test",duration);
+		assertEquals(s.getWaitingTime(),duration);
+	}
+	
+	/**
+	 * Test of getLatitude method
+	 */
+	@Test
+	void testGetLatitude() {
+		float latitude = 5;
+		Station s = new Station(latitude,0,"Test");
+		assertEquals(s.getLatitude(),latitude);
+	}
+	
+	/**
+	 * Test of getLongitude method
+	 */
+	@Test
+	void testGetLongitude() {
+		float longitude = 5;
+		Station s = new Station(0,longitude,"Test");
+		assertEquals(s.getLongitude(),longitude);
+	}
+	
+	/**
+	 * Test of getName method
+	 */
+	@Test
+	void testGetName() {
+		String name = "Test";
+		Station s = new Station(0,0,name);
+		assertEquals(s.getName(),name);
+	}
+	
+	/**
+	 * Test of setWaitingTime method with a valid duration
+	 */
+	@Test
+	void testSetWaitingTime1() {
+		Duration duration = Duration.ofSeconds(42);
+		Station s = new Station(0,0,"Test");
+		s.setWaitingTime(duration);
+		assertEquals(duration,s.getWaitingTime());
+	}
+	
+	/**
+	 * Test of setWaitingTime method with a negative duration
+	 */
+	@Test
+	void testSetWaitingTime2() {
+		Duration duration = Duration.ofSeconds(-42);
+		Station s = new Station(0,0,"Test");
+		assertThrows(IllegalArgumentException.class, () -> {
+			s.setWaitingTime(duration);
+		});
+	}
+	
+	/**
+	 * Test of setWaitingTime method with a duration that equals zero
+	 */
+	@Test
+	void testSetWaitingTime3() {
+		Duration duration = Duration.ZERO;
+		Station s = new Station(0,0,"Test");
+		assertThrows(IllegalArgumentException.class, () -> {
+			s.setWaitingTime(duration);
+		});
+	}
+	
+	/**
+	 * Test of setWaitingTime method with a null duration
+	 */
+	@Test
+	void testSetWaitingTime4() {
+		Duration duration = null;
+		Station s = new Station(0,0,"Test");
+		assertThrows(NullPointerException.class, () -> {
+			s.setWaitingTime(duration);
+		});
+	}
+	
 	
 }

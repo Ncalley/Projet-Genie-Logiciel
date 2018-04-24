@@ -20,7 +20,7 @@ public class Station extends NetworkObject{
 	
 	//Constructors
 	
-	public Station(final float latitude, final float longitude, final Duration waitingTime, final String name, final boolean incident){
+	public Station(final float latitude, final float longitude, final String name, final Duration waitingTime, final boolean incident){
 		if (!DataChecker.checkCoordinate(latitude) || !DataChecker.checkCoordinate(longitude)) {
 			throw new IllegalArgumentException("Invalid coordinate's format\nLatitude = "
 					+ latitude
@@ -28,27 +28,33 @@ public class Station extends NetworkObject{
 					+ longitude
 					+ "\nCoordinates must be between -90 and 90 included");
 		}
-		this.LATITUDE = latitude;
-		this.LONGITUDE = longitude;
 		if(!DataChecker.checkDuration(waitingTime)) {
 			throw new IllegalArgumentException("Invalid duration : " + waitingTime.toString());
 		}
-		this.waitingTime = waitingTime;
 		if(!DataChecker.checkString(name)) {
 			throw new IllegalArgumentException("Name can't be null or blank");
 		}
+		
+		this.LATITUDE = latitude;
+		this.LONGITUDE = longitude;
+		this.waitingTime = waitingTime;
 		this.name = name;
 		this.incident = incident;
 	}
 	
-	public Station(final float latitude, final float longitude, final Duration waitingTime, final String name){
+	public Station(final float latitude, final float longitude, final String name, final Duration waitingTime){
 		//By default there are no incidents when we create the station
-		this(latitude,longitude,waitingTime, name, true);
+		this(latitude, longitude, name, waitingTime, true);
+	}
+	
+	public Station(final float latitude, final float longitude, final String name, final boolean incident){
+		//By default there are no incidents when we create the station
+		this(latitude, longitude, name, Duration.ofMinutes(1).plus(Duration.ofSeconds(30)), incident);
 	}
 	
 	public Station(final float latitude, final float longitude, final String name){
 		// the mean of the waiting time in a subway station is 1 minute 30 seconds, it will be our default value here
-		this(latitude,longitude, Duration.ofMinutes(1).plus(Duration.ofSeconds(30)), name, true);
+		this(latitude,longitude, name, Duration.ofMinutes(1).plus(Duration.ofSeconds(30)), true);
 	}
 
 	
@@ -64,6 +70,9 @@ public class Station extends NetworkObject{
 	}
 
 	public void setWaitingTime(Duration waitingTime) {
+		if(!DataChecker.checkDuration(waitingTime)) {
+			throw new IllegalArgumentException("Invalid duration : " + waitingTime.toString());
+		}
 		this.waitingTime = waitingTime;
 	}
 
