@@ -11,6 +11,7 @@ import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
 import Metro.DataChecker;
+import Metro.Station;
 
 @RunWith(JUnitPlatform.class)
 @DisplayName("JSONProcessorTest")
@@ -30,6 +31,41 @@ public class DataCheckerTest {
 	@Test
 	void testCheckNull2() {
 		assertTrue(DataChecker.checkNull(null));
+	}
+	
+	/**
+	 * Test of checkNulls with a null entry
+	 */
+	@Test
+	void testCheckNulls1() {
+		assertTrue(DataChecker.checkNulls(null));
+	}
+	
+	/**
+	 * Test of checkNulls with at least 1 null element in the list
+	 */
+	@Test
+	void testCheckNulls2() {
+		Object[] o = {2,5f,"Test",null,"Test2"};
+		assertTrue(DataChecker.checkNulls(o));
+	}
+	
+	/**
+	 * Test of checkNulls with a list full of null elements
+	 */
+	@Test
+	void testCheckNulls3() {
+		Object[] o = {null,null,null,null,null};
+		assertTrue(DataChecker.checkNulls(o));
+	}
+	
+	/**
+	 * Test of checkNulls with a list without null elements
+	 */
+	@Test
+	void testCheckNulls4() {
+		Object[] o = {2,5f,"Test",Duration.ZERO,new Station(0,0,"Test")};
+		assertFalse(DataChecker.checkNulls(o));
 	}
 	
 	/**

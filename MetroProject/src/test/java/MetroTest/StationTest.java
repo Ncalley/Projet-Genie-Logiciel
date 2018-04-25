@@ -1,8 +1,9 @@
 package MetroTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Duration;
 
@@ -33,7 +34,7 @@ public class StationTest {
 		IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
 			new Station(0,0,null);
 		});
-		assertEquals(e.getMessage(), "Name can't be null or blank");
+		assertEquals(e.getMessage(), "At least one argument is null");
 	}
 	
 	/**
@@ -130,9 +131,11 @@ public class StationTest {
 	@Test
 	void testDuration2(){
 		Duration duration = null;
-		assertThrows(NullPointerException.class, () -> {
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
 			new Station(0,0,"Test",duration);
 		});
+		assertEquals(e.getMessage(), "At least one argument is null");
+		
 	}
 	
 	/**
@@ -249,9 +252,10 @@ public class StationTest {
 	void testSetWaitingTime2() {
 		Duration duration = Duration.ofSeconds(-42);
 		Station s = new Station(0,0,"Test");
-		assertThrows(IllegalArgumentException.class, () -> {
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
 			s.setWaitingTime(duration);
 		});
+		assertEquals(e.getMessage(), "Invalid duration : " + duration.toString());
 	}
 	
 	/**
@@ -261,9 +265,10 @@ public class StationTest {
 	void testSetWaitingTime3() {
 		Duration duration = Duration.ZERO;
 		Station s = new Station(0,0,"Test");
-		assertThrows(IllegalArgumentException.class, () -> {
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
 			s.setWaitingTime(duration);
 		});
+		assertEquals(e.getMessage(), "Invalid duration : " + duration.toString());
 	}
 	
 	/**
@@ -273,10 +278,91 @@ public class StationTest {
 	void testSetWaitingTime4() {
 		Duration duration = null;
 		Station s = new Station(0,0,"Test");
-		assertThrows(NullPointerException.class, () -> {
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
 			s.setWaitingTime(duration);
 		});
+		assertEquals(e.getMessage(), "At least one argument is null");
 	}
 	
+	/**
+	 * Test of the valid hashcode function
+	 */
+	@Test
+	void testHashCode() {
+		Station s = new Station(0,0,"Test");
+		assertEquals(s.hashCode(),2603217);
+	}
 	
+	/**
+	 * Test of equals with valid arguments
+	 */
+	@Test
+	void testEquals1() {
+		Station s1 = new Station(0,0,"Test");
+		Station s2 = new Station(0,0,"Test");
+		assertTrue(s1.equals(s2));
+	}
+	
+	/**
+	 * Test of equals with a null
+	 */
+	@Test
+	void testEquals2() {
+		Station s1 = new Station(0,0,"Test");
+		Station s2 = null;
+		assertFalse(s1.equals(s2));
+	}
+	
+	/**
+	 * Test of equals with an object wrong
+	 */
+	@Test
+	void testEquals3() {
+		Station s1 = new Station(0,0,"Test");
+		Integer s2 = new Integer(1);
+		assertFalse(s1.equals(s2));
+	}
+	
+	/**
+	 * Test of equals with two differen names
+	 */
+	@Test
+	void testEquals4() {
+		Station s1 = new Station(0,0,"Test");
+		Station s2 = new Station(0,0,"Test1");
+		assertFalse(s1.equals(s2));
+	}
+	
+	/**
+	 * Test of equals with the same name and two different positions
+	 */
+	@Test
+	void testEquals5() {
+		Station s1 = new Station(0,0,"Test");
+		Station s2 = new Station(0,1,"Test");
+		assertTrue(s1.equals(s2));
+	}
+	
+	/**
+	 * Test of equals with the same object
+	 */
+	@Test
+	void testEquals6() {
+		Station s1 = new Station(0,0,"Test");
+		Station s2 = s1;
+		assertTrue(s1.equals(s2));
+	}
+	
+	/**
+	 * Test of ToString
+	 */
+	@Test
+	void testToString() {
+		Station s1 = new Station(0,0,"Test");
+		assertEquals(s1.toString(),"Station [LATITUDE=" + s1.getLatitude() 
+				+ ", LONGITUDE=" + s1.getLongitude() 
+				+ ", name=" + s1.getName() 
+				+ ", incident=" + s1.isIncident() 
+				+ ", waitingTime=" + s1.getWaitingTime() + "]");
+	}
 }

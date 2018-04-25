@@ -23,6 +23,25 @@ public class DataChecker {
 	}
 	
 	/**
+	 * Check if any object of the list is null
+	 * @param o
+	 * 		The list of objects we want to test
+	 * @return
+	 * 		- True if there is at least one null object in or the whole list is null
+	 * 		- False if none of them is null
+	 */
+	public static boolean checkNulls(final Object[] o) {
+		if(o!=null) {
+			for(Object obj : o) {
+				if(checkNull(obj)) {
+					return true;
+				}
+			}
+		}else { return true;}
+		return false;
+	}
+	
+	/**
 	 * Check if two objects have the same class
 	 * None of them shall be Null
 	 * @param o1
