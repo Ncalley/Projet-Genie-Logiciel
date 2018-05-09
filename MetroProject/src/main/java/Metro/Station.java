@@ -12,7 +12,9 @@ import java.time.Duration;
  * @author Nicolas
  *
  */
-public class Station extends NetworkObject{
+public class Station implements Comparable<Station>{
+	private boolean incident;
+	private Duration waitingTime;
 	private final float LATITUDE;
 	private final float LONGITUDE;
 	private final String NAME;
@@ -66,7 +68,7 @@ public class Station extends NetworkObject{
 	//Methods
 	
 	/**
-	 * Automatically generated method
+	 * {@inheritDoc}
 	 */
 	@Override
 	public int hashCode() {
@@ -77,7 +79,7 @@ public class Station extends NetworkObject{
 	}
 
 	/**
-	 * Compares this object with another, two Stations with the same name are considered the same
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -94,12 +96,21 @@ public class Station extends NetworkObject{
 	}
 	
 	/**
-	 * Automatically generated toString
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {
 		return "Station [LATITUDE=" + LATITUDE + ", LONGITUDE=" + LONGITUDE + ", name=" + NAME + ", incident="
 				+ incident + ", waitingTime=" + waitingTime + "]";
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int compareTo(Station o) {
+		if(this.equals(o)) {return 0;}
+		return Integer.parseInt(this.waitingTime.minus(o.getWaitingTime()).getSeconds()+"");
 	}
 	
 	//Getters & Setters
@@ -115,4 +126,25 @@ public class Station extends NetworkObject{
 	public String getName() {
 		return NAME;
 	}
+
+	public Duration getWaitingTime() {
+		return waitingTime;
+	}
+	
+	public int getWaitingTimeInt() {
+		return Integer.parseInt(this.waitingTime.getSeconds()+"");
+	}
+
+	public void setWaitingTime(Duration waitingTime) {
+		this.waitingTime = waitingTime;
+	}
+
+	public boolean isIncident() {
+		return incident;
+	}
+
+	public void setIncident(boolean incident) {
+		this.incident = incident;
+	}
+	
 }

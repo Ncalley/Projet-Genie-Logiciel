@@ -362,7 +362,6 @@ public class StationTest {
 		assertEquals(s1.toString(),"Station [LATITUDE=" + s1.getLatitude() 
 				+ ", LONGITUDE=" + s1.getLongitude() 
 				+ ", name=" + s1.getName() 
-				+ ", incident=" + s1.isIncident() 
 				+ ", waitingTime=" + s1.getWaitingTime() + "]");
 	}
 }
