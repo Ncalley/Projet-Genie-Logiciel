@@ -2,6 +2,7 @@ package MetroTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -15,7 +16,7 @@ import org.junit.runner.RunWith;
 import Metro.Station;
 
 @RunWith(JUnitPlatform.class)
-@DisplayName("JSONProcessorTest")
+@DisplayName("StationTest")
 public class StationTest {
 	
 	/**
@@ -199,7 +200,7 @@ public class StationTest {
 	 */
 	@Test
 	void testGetWaitingTime() {
-		Duration duration = Duration.ofSeconds(42);
+		Duration duration = Duration.ofMinutes(1).plus(Duration.ofSeconds(42));
 		Station s = new Station(0,0,"Test",duration);
 		assertEquals(s.getWaitingTime(),duration);
 	}
@@ -239,7 +240,7 @@ public class StationTest {
 	 */
 	@Test
 	void testSetWaitingTime1() {
-		Duration duration = Duration.ofSeconds(42);
+		Duration duration = Duration.ofMinutes(1).plus(Duration.ofSeconds(42));
 		Station s = new Station(0,0,"Test");
 		s.setWaitingTime(duration);
 		assertEquals(duration,s.getWaitingTime());
@@ -250,7 +251,7 @@ public class StationTest {
 	 */
 	@Test
 	void testSetWaitingTime2() {
-		Duration duration = Duration.ofSeconds(-42);
+		Duration duration = Duration.ofMinutes(-1).minus(Duration.ofSeconds(42));
 		Station s = new Station(0,0,"Test");
 		IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
 			s.setWaitingTime(duration);
@@ -278,10 +279,9 @@ public class StationTest {
 	void testSetWaitingTime4() {
 		Duration duration = null;
 		Station s = new Station(0,0,"Test");
-		IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
+		assertThrows(NullPointerException.class, () -> {
 			s.setWaitingTime(duration);
 		});
-		assertEquals(e.getMessage(), "At least one argument is null");
 	}
 	
 	/**
@@ -362,6 +362,42 @@ public class StationTest {
 		assertEquals(s1.toString(),"Station [LATITUDE=" + s1.getLatitude() 
 				+ ", LONGITUDE=" + s1.getLongitude() 
 				+ ", name=" + s1.getName() 
+				+ ", incident=" + s1.isIncident()
 				+ ", waitingTime=" + s1.getWaitingTime() + "]");
+	}
+	
+	@Test
+	void testCompareTo1() {
+		Station s1 = new Station(0,0,"Test", Duration.ofMinutes(1));
+		Station s2 = new Station(0,0,"Test1", Duration.ofMinutes(1));
+		assertEquals(s1.compareTo(s2),0);
+	}
+	
+	@Test
+	void testCompareTo2() {
+		Station s1 = new Station(0,0,"Test", Duration.ofMinutes(1));
+		Station s2 = new Station(0,0,"Test1", Duration.ofMinutes(2));
+		assertEquals(s1.compareTo(s2),-60);
+	}
+	
+	@Test
+	void testCompareTo3() {
+		Station s1 = new Station(0,0,"Test", Duration.ofMinutes(2));
+		Station s2 = new Station(0,0,"Test1", Duration.ofMinutes(1));
+		assertEquals(s1.compareTo(s2),60);
+	}
+	
+	@Test
+	void testGetWaitingTimeInt1() {
+		Station s1 = new Station(0,0,"Test", Duration.ofMinutes(1));
+		assertEquals(60, s1.getWaitingTimeInt());
+	}
+	
+	@Test
+	void testSetIncident() {
+		Station s1 = new Station(0,0,"Test");
+		boolean incident = s1.isIncident();
+		s1.setIncident(!incident);
+		assertNotEquals(incident, s1.isIncident());
 	}
 }

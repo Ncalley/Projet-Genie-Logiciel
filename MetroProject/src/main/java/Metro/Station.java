@@ -110,7 +110,7 @@ public class Station implements Comparable<Station>{
 	@Override
 	public int compareTo(Station o) {
 		if(this.equals(o)) {return 0;}
-		return Integer.parseInt(this.waitingTime.minus(o.getWaitingTime()).getSeconds()+"");
+		return this.getWaitingTimeInt()- o.getWaitingTimeInt();
 	}
 	
 	//Getters & Setters
@@ -136,6 +136,9 @@ public class Station implements Comparable<Station>{
 	}
 
 	public void setWaitingTime(Duration waitingTime) {
+		if(!DataChecker.checkDuration(waitingTime)) {
+			throw new IllegalArgumentException("Invalid duration : " + waitingTime.toString());
+		}
 		this.waitingTime = waitingTime;
 	}
 

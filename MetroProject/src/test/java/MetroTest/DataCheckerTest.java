@@ -14,7 +14,7 @@ import Metro.DataChecker;
 import Metro.Station;
 
 @RunWith(JUnitPlatform.class)
-@DisplayName("JSONProcessorTest")
+@DisplayName("DataCheckerTest")
 public class DataCheckerTest {
 
 	/**

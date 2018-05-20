@@ -78,14 +78,13 @@ public class DataChecker {
 	 * @param duration
 	 * 		The given duration we need to test
 	 * @return
-	 * 		- True if the duration is strictly positive and > 1
+	 * 		- True if the duration is strictly positive
 	 * 		- False otherwise
 	 */
 	public static boolean checkDuration(final Duration duration) {
-		if (!checkClass(duration, Duration.ofSeconds(1))) {return false;}
+		if(duration == null) {return false;}
 		if (duration.isNegative()) {return false;}
 		if (duration.isZero()) {return false;}
-		if(duration.compareTo(Duration.ofMinutes(1))<0) {return false;}
 		return true;
 	}
 	

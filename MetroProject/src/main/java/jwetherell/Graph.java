@@ -104,6 +104,10 @@ public class Graph<T extends Comparable<T>> {
     public List<Edge<T>> getEdges() {
         return allEdges;
     }
+    
+    public void addEdge(Edge<T> e) {
+    	allEdges.add(e);
+    }
 
     /**
      * {@inheritDoc}
