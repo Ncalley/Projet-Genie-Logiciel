@@ -135,8 +135,6 @@ public class Network{
 	 * 		The name of the station (two stations with the same name are considered the same)
 	 * @param waitingTime
 	 * 		The time required to leave the station
-	 * @param incident
-	 * 		Is there an incident on the station
 	 * @return
 	 * 		- True is the Station has been successfully created and added to the graph
 	 * 		- False otherwise
@@ -373,10 +371,10 @@ public class Network{
 		linesWithIncidents.clear();
 	}
 	
-	/**
+	/*
 	 * Saves the Network on a file with the given name
 	 * It requires a bit more time to develop.
-	 * @param filename
+	 * param filename
 	 * 		The given filename (with extension like "toto.txt")
 	 */
 	/*public boolean save(String filename){
@@ -467,12 +465,12 @@ public class Network{
 		return false;
 	}
 	
-	/**
+	/*
 	 * Loads a Network from a corresponding file using a given filename
 	 * Doesn't work properly because the class is a bit too complicated and JSONProcessor needs a TypeAdapter
-	 * @param filename
+	 * param filename
 	 * 		the name of the file we needs to extract data from
-	 * @return
+	 * return
 	 * 		A Network object corresponding to the object previously serialized 
 	 */
 	/*public static Object load(String filename) {
