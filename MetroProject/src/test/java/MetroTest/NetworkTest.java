@@ -622,5 +622,24 @@ public class NetworkTest {
 	void testGetLinesWithIncidents() {
 		n.getLinesWithIncidents();
 	}
+	
+	@Test
+	void testRemove() {
+		Station s1 = new Station(0,0,"Test",true);
+		assertFalse(n.remove(s1));
+	}
+	
+	@Test
+	void testRemove1() {
+		Station s1 = new Station(0,0,"Test",true);
+		n.addStation(s1);
+		assertTrue(n.remove(s1));
+	}
+	
+	@Test
+	void testRemove2() {
+		assertThrows(IllegalArgumentException.class, () -> n.remove(null));
+		
+	}
 }
 

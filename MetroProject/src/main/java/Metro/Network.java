@@ -266,7 +266,7 @@ public class Network{
 		if(DataChecker.checkNull(s)) {
 			throw new IllegalArgumentException("The Station can't be null");
 		}
-		Vertex<Station> vertex =new Vertex<Station>(s,s.getWaitingTimeInt());
+		Vertex<Station> vertex = getVertex(s);
 		if(graph.getVertices().contains(vertex)) {
 			getVertex(s).getValue().setIncident(true);
 			return true;
@@ -305,9 +305,9 @@ public class Network{
 		if(DataChecker.checkNull(s)) {
 			throw new IllegalArgumentException("The Station can't be null");
 		}
-		Vertex<Station> vertex =new Vertex<Station>(s,s.getWaitingTimeInt());
+		Vertex<Station> vertex = getVertex(s);
 		if(graph.getVertices().contains(vertex)) {
-			getVertex(s).getValue().setIncident(true);
+			getVertex(s).getValue().setIncident(false);
 			return true;
 		}
 		return false;
@@ -437,10 +437,32 @@ public class Network{
 	 * 		- False otherwise
 	 */
 	public boolean contains(Station s) {
+		if(DataChecker.checkNull(s)) {
+			throw new IllegalArgumentException("The Station can't be null");
+		}
 		for(Vertex<Station> v : graph.getVertices()) {
 			if(v.getValue().equals(s)) {
 				return true;
 			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Remove the station from the graph if it is in the graph
+	 * @param s
+	 * 		The station you want to remove
+	 * @return
+	 * 		- True if the station was successfully removed
+	 * 		- False otherwise
+	 */
+	public boolean remove(Station s) {
+		if(DataChecker.checkNull(s)) {
+			throw new IllegalArgumentException("The Station can't be null");
+		}
+		if(contains(s)) {
+			graph.getVertices().remove(getVertex(s));
+			return true;
 		}
 		return false;
 	}
